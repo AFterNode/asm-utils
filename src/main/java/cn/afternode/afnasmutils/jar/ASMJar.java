@@ -1,7 +1,7 @@
 package cn.afternode.afnasmutils.jar;
 
-import jdk.internal.org.objectweb.asm.ClassReader;
 import org.apache.commons.io.IOUtils;
+import org.objectweb.asm.ClassReader;
 
 import java.io.File;
 import java.io.IOException;
