@@ -7,7 +7,9 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
+import java.util.Arrays;
 
 public class TestHasReference {
     public static void main(String[] args) throws Exception {
@@ -20,9 +22,19 @@ public class TestHasReference {
             System.out.println(mn.name + " " + mn.desc);
         }
 
-        System.out.println("References of forceExit: ");
-        for (String s: MethodProcessor.getReferences(cn, "forceExit", "(I)V")) {
-            System.out.println(s);
+        for (MethodNode mn: cn.methods) {
+            System.out.println("Reference of: " + mn.name + " " + mn.desc);
+            for (String refer: MethodProcessor.getReferences(cn, mn.name, mn.desc)) {
+                System.out.println(refer);
+            }
+            System.out.println("\n");
+        }
+
+        Method m = Arrays.class.getDeclaredMethod("asList", Object[].class);
+        for (MethodNode mn: cn.methods) {
+            if (MethodProcessor.hasReference(mn, m)) {
+                System.out.println("Arrays.asList reference at: " + mn.name + " " + mn.desc);
+            }
         }
     }
 }
